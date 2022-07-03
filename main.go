@@ -2,6 +2,7 @@ package main
 
 import (
 	"io"
+	adminUsers "microservices-log-extractor/admin"
 	"microservices-log-extractor/users"
 	"net/http"
 )
@@ -10,7 +11,7 @@ func testserver(response http.ResponseWriter, Request *http.Request) {
 	io.WriteString(response, "Server is up and running!!")
 }
 func addUser(response http.ResponseWriter, Request *http.Request) {
-	io.WriteString(response, "connect to a database that will add users")
+	io.WriteString(response, adminUsers.CreateUserProfile())
 }
 func loginUser(response http.ResponseWriter, Request *http.Request) {
 	io.WriteString(response, users.Login("Peace", "1234"))
@@ -31,7 +32,7 @@ func main() {
 
 	mux.HandleFunc("/", testserver)
 	mux.HandleFunc("/signup", addUser)
-	mux.HandleFunc("/login", loginUser)
+	mux.HandleFunc("/signin", loginUser)
 	mux.HandleFunc("/services", getMicroservices)
 	mux.HandleFunc("/servers", getServers)
 	mux.HandleFunc("/logs", getLogs)
